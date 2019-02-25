@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="TableConfigMapper">
+  <resultMap id="BaseResultMap" type="TableConfig">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="table_name" jdbcType="VARCHAR" property="tableName" />
+    <result column="table_columns" jdbcType="VARCHAR" property="tableColumns" />
+    <result column="module_code" jdbcType="VARCHAR" property="moduleCode" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="hold2" jdbcType="VARCHAR" property="hold2" />
+    <result column="hold3" jdbcType="VARCHAR" property="hold3" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, table_name, table_columns, module_code, remark, hold2, hold3, create_time, update_time
+  </sql>
+  <select id="selectList" parameterType="TableConfig" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from table_config
+     
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from table_config
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from table_config
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="TableConfig">
+    insert into table_config (id, table_name, table_columns, 
+      module_code, remark, hold2, 
+      hold3, create_time, update_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{tableName,jdbcType=VARCHAR}, #{tableColumns,jdbcType=VARCHAR}, 
+      #{moduleCode,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{hold2,jdbcType=VARCHAR}, 
+      #{hold3,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="update" parameterType="TableConfig">
+    update table_config
+    <set>
+      <if test="tableName != null">
+        table_name = #{tableName,jdbcType=VARCHAR},
+      </if>
+      <if test="tableColumns != null">
+        table_columns = #{tableColumns,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleCode != null">
+        module_code = #{moduleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="hold2 != null">
+        hold2 = #{hold2,jdbcType=VARCHAR},
+      </if>
+      <if test="hold3 != null">
+        hold3 = #{hold3,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

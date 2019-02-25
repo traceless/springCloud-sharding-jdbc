@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DbConfigMapper">
+  <resultMap id="BaseResultMap" type="DbConfig">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="master_url" jdbcType="VARCHAR" property="masterUrl" />
+    <result column="position" jdbcType="INTEGER" property="position" />
+    <result column="slave_url" jdbcType="VARCHAR" property="slaveUrl" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="md5" jdbcType="VARCHAR" property="md5" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="module_code" jdbcType="VARCHAR" property="moduleCode" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="effective_time" jdbcType="TIMESTAMP" property="effectiveTime" />
+    <result column="hlod1" jdbcType="VARCHAR" property="hlod1" />
+    <result column="hlod2" jdbcType="VARCHAR" property="hlod2" />
+    <result column="hlod3" jdbcType="VARCHAR" property="hlod3" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, master_url, position, slave_url, remark, md5, username, password, module_code, 
+    status, effective_time, hlod1, hlod2, hlod3, create_time, update_time
+  </sql>
+  <select id="selectList" parameterType="DbConfig" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from db_config
+   
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from db_config
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from db_config
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="DbConfig">
+    insert into db_config (id, name, master_url, 
+      position, slave_url, remark, 
+      md5, username, password, 
+      module_code, status, effective_time, 
+      hlod1, hlod2, hlod3, 
+      create_time, update_time)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{masterUrl,jdbcType=VARCHAR}, 
+      #{position,jdbcType=INTEGER}, #{slaveUrl,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{md5,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{moduleCode,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{effectiveTime,jdbcType=TIMESTAMP}, 
+      #{hlod1,jdbcType=VARCHAR}, #{hlod2,jdbcType=VARCHAR}, #{hlod3,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="update" parameterType="DbConfig">
+    update db_config
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="masterUrl != null">
+        master_url = #{masterUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        position = #{position,jdbcType=INTEGER},
+      </if>
+      <if test="slaveUrl != null">
+        slave_url = #{slaveUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="md5 != null">
+        md5 = #{md5,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleCode != null">
+        module_code = #{moduleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="effectiveTime != null">
+        effective_time = #{effectiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hlod1 != null">
+        hlod1 = #{hlod1,jdbcType=VARCHAR},
+      </if>
+      <if test="hlod2 != null">
+        hlod2 = #{hlod2,jdbcType=VARCHAR},
+      </if>
+      <if test="hlod3 != null">
+        hlod3 = #{hlod3,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+</mapper>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="AppName" value="PHANTOMS"/>
+    <property name="AppVersion" value="1.0.0"/>
+    <property name="BaseDir" value="${LOG_PATH:-/tmp/logs}/${AppName}"/>
+    <property name="BackupDir" value="${BaseDir}/backups"/>
+    <!-- 配合apollo app.id, 因为log日志启动先于 apollo的启动，所以用这样的方式进行命名区别 -->
+    <springProperty  name="AppID" scope="context"  source="app.id" defaultValue="${AppName}_TMP" />
+    <!-- 如果设置了logging.file就使用该值作为文件名称，如果设置了logging.path就使用logging.path/spring.log作为文件名称，如果都没有设置就放入临时文 -->
+    <!-- <property name="logfile" value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp/logs}}}/logging/${AppID}-spring.log}"/> -->
+    <property name="logfile" value="${LOG_FILE:-${BaseDir}/logging/${AppID}-spring.log}"/>
+    
+    <property name="LogPattern" value="[${AppName}@${AppVersion}] %d{yyyy-MM-dd'T'HH:mm:ssZZ} %-5p [%t] [${AppID:-},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-}] %C.%M\\(%F:%L\\) - %m%n"/>
+ 
+    <logger name="org.apache.catalina.startup.DigesterFactory" level="ERROR"/>
+    <logger name="org.apache.sshd.common.util.SecurityUtils" level="WARN"/>
+    <logger name="org.apache.tomcat.util.net.NioSelectorPool" level="WARN"/>
+    <logger name="org.crsh.plugin" level="WARN"/>
+    <logger name="org.crsh.ssh" level="WARN"/>
+    <logger name="org.eclipse.jetty.util.component.AbstractLifeCycle" level="ERROR"/>
+    <logger name="com.phantoms.helper" level="DEBUG"/>
+
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LogPattern}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="RollingLogFile"
+              class="com.phantoms.framework.cloudbase.log.MyRollingFileAppender">
+        <encoder>
+            <pattern>${LogPattern}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+        <file>${logfile}</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${BackupDir}/${AppID}/%d{yyyy-MM-dd.HH}.%i.log.gz</fileNamePattern>
+            <maxHistory>120</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy  class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">    
+                <!-- maxFileSize:这是当前活动日志文件的大小，自动分割日志，默认值是10MB，测试时可改成1KB看效果 -->  
+                <maxFileSize>50MB</maxFileSize>    
+            </timeBasedFileNamingAndTriggeringPolicy>   
+        </rollingPolicy>
+        
+        <!-- 日志文件最大限制, 跟上面的配置冲突，需要注释掉-->
+        <!-- <triggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>100MB</MaxFileSize>
+        </triggeringPolicy> -->
+        
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="Console" />
+        <appender-ref ref="RollingLogFile" />
+    </root>
+
+    <jmxConfigurator/>
+</configuration>
