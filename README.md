@@ -6,6 +6,7 @@
   
 ## 项目框架
 1. 项目目录如下图：
+
 ![目录](/image/QQ20190225-162332@2x.png)
 2. RPC框架使用spring cloud，数据库层用的是mybatis，sharding-jdbc中间件。里面可看到有admin（spring-boot-admin），eureka，以及zuul-gateway，相信这几个是开发微服务的基本东西，其他的组件没有集成进来，因为要轻嘛！common是属于项目通用类统一放置的模块。cloud-base是主要代码模块，里面实现了sharding-jdbc的分库分表定位逻辑，以及实现spring cloud的feign异常处理，拦截器等，它不归属于项目，不耦合，它可以被其他项目引用。后面会着重讲一下**cloud-base模块**。其他的server-user，server-payment是项目的分库分表的使用例子。
 
