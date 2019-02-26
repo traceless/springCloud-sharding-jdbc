@@ -5,10 +5,8 @@
   - 这个项目主要用于学习spring cloud和sharding-jdbc，以及可作为基础开发框架。里面实现的东西比较多，比较复杂，不建议新手用作为学习入门的项目。代码框架是用spring cloud搭建的，里面整合了sharding-jdbc的中间件，完整度比较高，有一些是企业开发所必备的基础组件。至于为什么选型这个中间件，我想是因为这个中间件相对轻一些。轻量级的框架意味着使用灵活，可改造性更强，支持二维路由。网上有很多关于选型的 sharding-jdbc mycat DRDS等各自的优缺点，这里我就不详细说明了。如果你完全不熟悉sharding-jdbc的话，建议先了解一下它的基本概念，使用方式。后面我会附上一篇结合这个项目的分库分表方案文章（分库分表有点大，三语两句说不完）。
   
 ## 项目框架
-1. 项目目录如下图：
-
- ![目录](/image/QQ20190225-162332@2x.png)
-
+1. 项目目录如下图： 
+  ![目录](/image/QQ20190225-162332@2x.png)
 2. RPC框架使用spring cloud，数据库层用的是mybatis，sharding-jdbc中间件。里面可看到有admin（spring-boot-admin），eureka，以及zuul-gateway，相信这几个是开发微服务的基本东西，其他的组件没有集成进来，因为要轻嘛！common是属于项目通用类统一放置的模块。cloud-base是主要代码模块，里面实现了sharding-jdbc的分库分表定位逻辑，以及实现spring cloud的feign异常处理，拦截器等，它不归属于项目，不耦合，它可以被其他项目引用。后面会着重讲一下**cloud-base模块**。其他的server-user，server-payment是项目的分库分表的使用例子。
 
 ## cloud-base模块
