@@ -66,7 +66,7 @@ public CommonResult getUserInfo(String userName) throws Exception {
 - 还有一个叫复合字段分库分表，比如user_id 进行分库，user_id + order_id进行分表，可以重写 AbstractShardingAlgorithm.java 里面的doShardingByListShardingValue方法，对多个字段值进行分库定位。还有一个是范围值分库分表，那个好像没啥意思，使用场景好比较局限吧（通常可能定位了全部数据库和表）。这里的分库分表算法还算挺灵活，可能某些表需要特定的算法，那么需要开发者重新实现。
 - 还有一个问题这里的实现缺少一些东西，那就是server-user按理不应该持有server-payment的数据库操作的，我预留个一个注释的地方可以改写。但是一个服务server-user很可能里面还会进行垂直分库，多个模块，比如user_info表和login_record表会拆分吧, 或者order_info表呢，所以我这里没做太多的局限，交给你们了。
 
-### 总结
+## 总结
 - 坑很多。分库分表比较复杂，server_user里面有测试案例，可以看看里面的方法说明。我的坑也有，但是项目整体比较轻，坑应该很小，相信你一定能平躺过去的。zuul-gateway没有做异常的捕抓，这个项目是我目前一个项目初期的时候搬出来的，没有太复杂的东西在里面，都很原生。有问题可以加我的QQ，3121604，欢迎讨论或者留下issue.
 - [分库分表思想](https://www.cnblogs.com/sunny3096/p/8595783.html)
 - [唯一ID生成](https://www.cnblogs.com/haoxinyue/p/5208136.html)
