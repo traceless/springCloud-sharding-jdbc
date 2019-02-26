@@ -11,7 +11,7 @@
  Target Server Version : 50721
  File Encoding         : utf-8
 
- Date: 02/25/2019 16:21:41 PM
+ Date: 02/26/2019 15:38:21 PM
 */
 
 SET NAMES utf8;
@@ -48,7 +48,7 @@ CREATE TABLE `db_config` (
 --  Records of `db_config`
 -- ----------------------------
 BEGIN;
-INSERT INTO `db_config` VALUES ('1', 'user_db_1', 'jdbc:mysql://127.0.0.1:3306/user_db_1?useUnicode=true&characterEncoding=UTF-8&useSSL=false', '0', 'jdbc:mysql://127.0.0.1:3306/user_db_1?useUnicode=true&characterEncoding=UTF-8&useSSL=false', null, null, 'root', '123456', 'user_server', null, null, null, null, null, null, null), ('2', 'user_db_2', 'jdbc:mysql://127.0.0.1:3306/user_db_2?useUnicode=true&characterEncoding=UTF-8&useSSL=false', '500', 'jdbc:mysql://127.0.0.1:3306/user_db_2?useUnicode=true&characterEncoding=UTF-8&useSSL=false', null, null, 'root', '123456', 'user_server', null, null, null, null, null, null, null), ('3', 'payment_db_1', 'jdbc:mysql://127.0.0.1:3306/payment_db_1?useUnicode=true&characterEncoding=UTF-8&useSSL=false', '0', 'jdbc:mysql://127.0.0.1:3306/payment_db_1?useUnicode=true&characterEncoding=UTF-8&useSSL=false', null, null, 'root', '123456', 'payment_server', null, null, null, null, null, null, null);
+INSERT INTO `db_config` VALUES ('1', 'user_db_1', 'jdbc:mysql://127.0.0.1:3306/user_db_1?useUnicode=true&characterEncoding=UTF-8&useSSL=false', '0', 'jdbc:mysql://127.0.0.1:3306/user_db_1?useUnicode=true&characterEncoding=UTF-8&useSSL=false', null, null, 'root', '123456', 'user_server', null, null, null, null, null, null, null), ('2', 'user_db_2', 'jdbc:mysql://127.0.0.1:3306/user_db_2?useUnicode=true&characterEncoding=UTF-8&useSSL=false', '500', 'jdbc:mysql://127.0.0.1:3306/user_db_2?useUnicode=true&characterEncoding=UTF-8&useSSL=false', null, null, 'root', '123456', 'user_server', null, null, null, null, null, null, null), ('3', 'payment_db_1', 'jdbc:mysql://127.0.0.1:3306/payment_db_1?useUnicode=true&characterEncoding=UTF-8&useSSL=false', '0', 'jdbc:mysql://127.0.0.1:3306/payment_db_1?useUnicode=true&characterEncoding=UTF-8&useSSL=false', null, null, 'root', '123456', 'payment_server', null, null, null, null, null, null, null), ('4', 'default', 'jdbc:mysql://127.0.0.1:3306/common_db?useUnicode=true&characterEncoding=UTF-8&useSSL=false', '0', 'jdbc:mysql://127.0.0.1:3306/common_db?useUnicode=true&characterEncoding=UTF-8&useSSL=false', null, null, 'root', '123456', 'common_db', null, null, null, null, null, null, null);
 COMMIT;
 
 -- ----------------------------
@@ -73,7 +73,7 @@ CREATE TABLE `module_config` (
 --  Records of `module_config`
 -- ----------------------------
 BEGIN;
-INSERT INTO `module_config` VALUES ('1', 'user_server', '用户服务', '系统设置以及用户服务等', '3', null, null, null, null), ('2', 'payment_server', '支付服务', '支付平台', '5', null, null, null, null);
+INSERT INTO `module_config` VALUES ('1', 'user_server', '用户服务', '系统设置以及用户服务等', '3', null, null, null, null), ('2', 'payment_server', '支付服务', '支付平台', '5', null, null, null, null), ('3', 'common_db', '公共数据库', '公共数据库', '0', null, null, null, null);
 COMMIT;
 
 -- ----------------------------
@@ -81,12 +81,20 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_config`;
 CREATE TABLE `sys_config` (
-  `id` int(11) DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` varchar(255) DEFAULT NULL,
   `value` varchar(255) DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
-  `version` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='空表，例子';
+  `version` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='空表，例子';
+
+-- ----------------------------
+--  Records of `sys_config`
+-- ----------------------------
+BEGIN;
+INSERT INTO `sys_config` VALUES ('1', 'test', 'test1', '1', '1'), ('2', 'test2', 'test2', '1', '1');
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `table_config`
