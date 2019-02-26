@@ -49,7 +49,7 @@ public class ServiceUserApplicationTests {
 	 * 利用 userName 的hashVal 来做模糊查询，这一点设计优秀
 	 * 也可以直接使用 userName = ”具体的值“ 完全匹配查询
 	 */
-	@Test
+//	@Test
 	public void selectUser() {
 		String userName = "5"; // 5 开头的名字 
 		Long hashVal =  SourceShardingAlgorithm.stringPreciseAlgorithm(userName);
@@ -60,11 +60,20 @@ public class ServiceUserApplicationTests {
 	/**
 	 * 根据订单ID得到 手机号，使用left join 方式
 	 */
-	@Test
+//	@Test
 	public void selectOrderListByName() {
 		long orderId = orderMapper.selectOne().getOrderId();
 		User user = orderMapper.selectUserByOrderId(orderId);
 		log.info("----mobile= "  + user.getMobile());
+	}
+	
+	/**
+	 * 查询全局表，sys_config
+	 */
+	@Test
+	public void selectSysConfig() {
+		List<String> list = userMapper.selectSysConfig();
+		log.info("----SysConfig= "  + list.size());
 	}
 	
 	

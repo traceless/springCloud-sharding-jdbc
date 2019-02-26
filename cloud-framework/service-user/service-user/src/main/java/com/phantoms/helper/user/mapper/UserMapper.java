@@ -30,6 +30,6 @@ public interface UserMapper {
     List<User> selectByLikeName(String userName, int hashVal);
     
     
-    
-    
+    @Select("select code from sys_config limit 2")
+    List<String> selectSysConfig();
 }

@@ -34,4 +34,5 @@ public class PaymentServiceApi {
         CommonResult res = userServiceFeign.getUserInfo("3"); 
         return res;
     }
+
 }

@@ -38,7 +38,7 @@ public class UserServiceHystrixFallbackFactory implements FallbackFactory<UserSe
             public CommonResult getUserInfo(String userName) throws Exception {
                 // 如果是链接超时异常，即可考虑服务降级处理
                 if(cause instanceof RetryableException){
-                    return null;
+                    return new CommonResult();
                 }
                 // 把异常（可能是业务异常）往客户端抛
                 throw new Exception(cause.getMessage(), cause);

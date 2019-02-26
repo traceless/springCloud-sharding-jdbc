@@ -44,8 +44,7 @@ import com.phantoms.framework.cloudbase.dbconfig.sharding.TableShardingAlgorithm
  */
 @Configuration
 @Slf4j
-@MapperScan(basePackages = {  "com.phantoms.helper.common.mapper1" }, sqlSessionTemplateRef = "test2SqlSessionTemplate")
-
+//@MapperScan(basePackages = {  "com.phantoms.helper.common.mapper1" }, sqlSessionTemplateRef = "test2SqlSessionTemplate")
 public class ShardingDatasourceConfiguration implements MasterSlaveDataSource {
 
     @Autowired
@@ -152,7 +151,7 @@ public class ShardingDatasourceConfiguration implements MasterSlaveDataSource {
             .map(table -> {
                 // 找到模块对应的数据库列表
                 List<DbConfig> dbList = moduleMapDbList.get(table.getModuleCode());
-                // 应该从各自服务的配置信息去获取，if(table.getModuleCode().equals("user-server")); 这里不应该添加进来
+                // 应该从各自服务的配置信息去获取，if(table.getModuleCode().equals("user-server") || table.getModuleCode().equals("default")); 这里不应该添加其他服务的数据源进来
                 ModuleConfig module = codeMapModule.get(table.getModuleCode());
                 // 根据表名字段值进行选表定位算法，一张表可以有多个字段定位的。
                 TableShardingAlgorithm<Long> thm = new TableShardingAlgorithm<Long>(StringUtil.splitWithComma(table.getTableColumns()),

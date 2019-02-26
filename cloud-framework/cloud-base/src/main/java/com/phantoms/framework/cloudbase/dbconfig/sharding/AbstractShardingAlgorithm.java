@@ -33,7 +33,8 @@ import com.google.common.collect.Range;
 public abstract class AbstractShardingAlgorithm<T extends Comparable<?>> implements ShardingStrategy {
 
     /**
-     * 算法实现，根据具体column的值获取 数据库名或者表名 TODO Add comments here.
+     * 算法实现，根据具体column的值获取 数据库名或者表名 默认精准算法，
+     * 可以重写doShardingByListShardingValue，实现复合键分库分表，比如user_id 进行分库，user_id + order_id进行分表
      * 
      * @param availableTargetNames
      * @param preciseValList
