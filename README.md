@@ -30,9 +30,9 @@ public CommonResult getUserInfo(String userName) throws Exception {
 ```
 - 在上面的列子中，你是希望BServiceFeign.getUserInfo在发生业务异常的时候，A会得到接受到异常，还是说B把异常信息放在res里面？
 - GlobalConvertFeignException.java 就是全局异常的处理，转换成feign异常（修改http响应状态为500），如果B服务发生业务异常，那么A将会得到feign客户端的异常抛出，那么它为什么能抛出异常？FeignExceptionHandler.java 就是对调用后异常的信息的封装，如果http响应状态异常，比如405,500等，decode方法将会被执行，那么就会返回一个异常类，所以feign客户端就能抛出异常，具体实现看代码。
-- 刚说的是业务异常，如果发生网络异常怎么处理？链接超时或服务挂了，通常这样的情况，我们会实现服务降级，容错或者重试。当然你在A服务下进行捕抓这类异常在处理就可以了，那么会就出现一个问题，C，D服务也要写这一部分网络异常捕抓处理的实现。所以才有Hystrix的使用，上面的FeignExceptionHandler，也可以实现这一部分功能，但是不同的服务可能处理不一样（容错或者重试）。
-- Hystrix我也给出了例子，service-user-api模块下 UserServiceHystrixFallbackFactory.java 类，对于一般的网络异常，建议在这里集中处理，当然你认为一些通用的业务异常也可以在这里统一处理（比如参数校验失败异常），可以有你来决定是否抛出异常，或者返回容错的结果，如果Hystrix继续抛出异常，那么feign客户端也是会接到异常的抛出的。
-- Hystrix和feignExceptionHandler是哪个执行先呢?我也忘记了，你们自己去测试一下吧！
+- 刚说的是业务异常，如果发生网络异常怎么处理？链接超时或服务挂了，通常这样的情况，我们会实现服务降级，容错或者重试。当然你在A服务下进行捕抓这类异常在处理就可以了，那么会就出现一个问题，C，D服务也要写这一部分网络异常捕抓处理的实现。所以才有Fallback的使用，上面的FeignExceptionHandler，也可以实现这一部分功能，但是不同的服务可能处理不一样（容错或者重试）。
+- Fallback我也给出了例子，service-user-api模块下 UserServiceHystrixFallbackFactory.java 类，对于一般的网络异常，建议在这里集中处理，当然你认为一些通用的业务异常也可以在这里统一处理（比如参数校验失败异常），可以有你来决定是否抛出异常，或者返回容错的结果，如果Fallback继续抛出异常，那么feign客户端也是会接到异常的抛出的。
+- Fallback和feignExceptionHandler是哪个执行先呢?我也忘记了，你们自己去测试一下吧！
 
 ### 2. sharding-jdbc
 - package-com.phantoms.framework.cloudbase.dbconfig;这个包下面都是数据库源的配置了，也就是对sharding-jdbc的使用。
