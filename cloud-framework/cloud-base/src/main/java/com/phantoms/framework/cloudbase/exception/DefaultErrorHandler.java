@@ -27,7 +27,7 @@ public class DefaultErrorHandler {
         // 默认设置response.status = 500，只要status > 400,FeignClient才会认为此次请求异常
         resp.setStatus(500);
         CommonResult r = new CommonResult();
-        r.setCode(BaseException.CODE);// 500 系统统一异常码
+        r.setCode(CloudBaseException.CODE);// 500 系统统一异常码
         r.setData(null);
         r.setSuccess(false);
         r.setMessage("系统内部异常"); // 系统的异常信息
@@ -44,9 +44,9 @@ public class DefaultErrorHandler {
         } else if (e instanceof org.springframework.web.bind.ServletRequestBindingException) {
             resp.setStatus(HttpStatus.BAD_REQUEST.value());
             r.setMessage("参数缺失");
-        } else if (e instanceof BaseException) {
+        } else if (e instanceof CloudBaseException) {
             // 自定义异常，比如serviceException等 默认resp.setStatus(500);
-            r.setCode(((BaseException) e).getCode());
+            r.setCode(((CloudBaseException) e).getCode());
             r.setMessage(e.getMessage());
         } else {
             // 可能其他的系统请求异常码，系统异常信息不外传，统一“系统异常”

@@ -13,7 +13,7 @@
 		<module>common</module>
 		<module>eureka</module>
 		<module>service-user</module>
-    <module>service-payment</module>
+		<module>service-payment</module>
 		<module>zuul-gateway</module>
 
 	</modules>

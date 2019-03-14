@@ -7,7 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 
 import com.alibaba.fastjson.JSONObject;
-import com.phantoms.framework.cloudbase.exception.BaseException;
+import com.netflix.hystrix.exception.HystrixBadRequestException;
+import com.phantoms.framework.cloudbase.exception.CloudBaseException;
 import com.phantoms.framework.cloudbase.response.CommonResult;
 
 import feign.Response;
@@ -38,7 +39,7 @@ public class FeignExceptionHandler implements ErrorDecoder {
         try {
             if (response.body() != null) {
                 String body = Util.toString(response.body().asReader());
-                logger.error(body);
+                logger.error("--FeignExceptionHandler：" + body);
                 // 由于GlobalConvertFeignExceptionHandler重写了异常信息结构，所以使用CommonResult类进行接收异常信息,
                 // JSONObject兼容性更好，避免升级导致问题
                 CommonResult commonResult = JSONObject.parseObject(body.getBytes("UTF-8"),CommonResult.class);
@@ -53,15 +54,18 @@ public class FeignExceptionHandler implements ErrorDecoder {
                     // 针对无参数构成方法的异常进行单独处理，封装成统一的Exception，后面可以使用Throwable进行判断。
                     Exception exceptionObj = clazz.newInstance();
                     String message = commonResult.getMessage();
-                    return new Exception(message, exceptionObj);
+                    // 业务异常不应该触发熔断器， HystrixBadRequestException不会触发熔断器
+                    return new HystrixBadRequestException(message, exceptionObj);
                 }
                 Exception exceptionObj = constructor.newInstance(commonResult.getMessage());
-                if (exceptionObj instanceof BaseException) {
-                    BaseException baseException = (BaseException) exceptionObj;
+                // 业务异常不应该触发熔断器，BaseException Extends HystrixBadRequestException
+                if (exceptionObj instanceof CloudBaseException) {
+                    CloudBaseException baseException = (CloudBaseException) exceptionObj;
                     baseException.setCode(commonResult.getCode());
                     return baseException;
                 } else {
-                    return exceptionObj;
+                	// 这里可能还有其他RuntimeException， HystrixBadRequestException不会触发熔断器
+                    return new HystrixBadRequestException(exceptionObj.getMessage(), exceptionObj);
                 }
             }
         } catch (Exception var4) {

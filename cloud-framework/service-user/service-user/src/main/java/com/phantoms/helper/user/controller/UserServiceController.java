@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.phantoms.framework.cloudbase.exception.BaseException;
+import com.phantoms.framework.cloudbase.exception.CloudBaseException;
 import com.phantoms.framework.cloudbase.response.CommonResult;
 import com.phantoms.helper.user.mapper.UserMapper;
 import com.phantoms.helper.user.model.User;
@@ -41,13 +41,13 @@ public class UserServiceController implements UserServiceFeign {
 	@PostMapping("user/getUserInfo")
 	@ResponseBody
 	@Override
-	public CommonResult getUserInfo(@RequestBody String userName) throws BaseException {
+	public CommonResult getUserInfo(@RequestBody String userName) throws CloudBaseException {
 		logger.info("-------come in getUserInfo------");
 		if (StringUtils.isEmpty(userName)) {
 			throw new NullPointerException("参数为空");
 		}
 		if (userName.length() < 6) {
-			throw new BaseException("-201", "参数太短");
+			throw new CloudBaseException("-201", "参数太短");
 		}
 		User user = userMapper.selectOne();
 		CommonResult res = new CommonResult();

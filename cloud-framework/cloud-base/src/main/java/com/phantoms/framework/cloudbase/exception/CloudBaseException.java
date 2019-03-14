@@ -7,6 +7,8 @@
  */
 package com.phantoms.framework.cloudbase.exception;
 
+import com.netflix.hystrix.exception.HystrixBadRequestException;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,7 +22,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class BaseException extends Exception {
+public class CloudBaseException extends HystrixBadRequestException {
 
     /**
      * 注释内容
@@ -39,7 +41,9 @@ public class BaseException extends Exception {
      * 提供一个无参数构造方法，用于Object exceptionObj = clazz.newInstance();
      * TODO Class constructors.
      */
-    public BaseException(){
+    public CloudBaseException(){
+    	super("error");
+    	this.message = "error";
         this.code = CODE;
     }
     
@@ -48,7 +52,7 @@ public class BaseException extends Exception {
      * 
      * @param message 异常消息
      */
-    public BaseException(String message){
+    public CloudBaseException(String message){
         super(message);
         this.code = CODE;
         this.message = message;
@@ -60,14 +64,14 @@ public class BaseException extends Exception {
      * @param code 异常编码
      * @param message 异常消息
      */
-    public BaseException(String code, String message){
+    public CloudBaseException(String code, String message){
         super(message);
         this.code = code;
         this.message = message;
         
     }
  
-    public BaseException(String code, String message, Throwable cause) {
+    public CloudBaseException(String code, String message, Throwable cause) {
         super(message, cause);
         this.code = code;
         this.message = message;

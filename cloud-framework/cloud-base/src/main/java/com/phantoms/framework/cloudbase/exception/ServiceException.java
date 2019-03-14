@@ -22,7 +22,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class ServiceException extends BaseException {
+public class ServiceException extends CloudBaseException {
 
     /**
      * 
@@ -34,7 +34,7 @@ public class ServiceException extends BaseException {
      * constructors.
      */
     public ServiceException(){
-        super(BaseException.CODE);
+        super(CloudBaseException.CODE);
     }
 
     /**
@@ -43,7 +43,7 @@ public class ServiceException extends BaseException {
      * @param message 异常消息
      */
     public ServiceException(String message){
-        super(BaseException.CODE, message);
+        super(CloudBaseException.CODE, message);
     }
 
     /**
